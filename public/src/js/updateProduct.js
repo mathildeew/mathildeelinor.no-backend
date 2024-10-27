@@ -41,8 +41,6 @@ export function updateProduct(id) {
     const response = await fetch(url, putData);
     const json = await response.json();
 
-    console.log(json);
-
     if (response.ok === true) {
       window.location.reload();
     }

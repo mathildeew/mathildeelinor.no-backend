@@ -4,7 +4,7 @@ import { getAllProducts } from "./getAllProducts.js";
 import { getSingleProduct } from "./getSingleProduct.js";
 import { updateProduct } from "./updateProduct.js";
 
-const url = "http://localhost:8000/api/products";
+const url = "/api/products";
 
 // Router - Run function based on pathname
 const path = location.pathname;

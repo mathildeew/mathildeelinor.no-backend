@@ -3,7 +3,7 @@ export function getSingleProduct() {
   const params = new URLSearchParams(queryString);
   const id = params.get("id");
 
-  const url = `http://localhost:8000/api/products/${id}`;
+  const url = `/api/products/${id}`;
 
   getSingleID(url);
 

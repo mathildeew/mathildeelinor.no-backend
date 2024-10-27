@@ -22,8 +22,6 @@ async function remove(url) {
   const response = await fetch(url, deleteData);
   const json = await response.json();
 
-  console.log(json);
-
   if (response.ok === true) {
     // window.location.href = `/products/?id=${json.id}`;
     // window.location.reload();

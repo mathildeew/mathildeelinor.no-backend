@@ -23,7 +23,6 @@ export function createProductListener() {
     };
 
     const response = await createProduct("/api/products/", productContent);
-    console.log(response);
 
     if (!response.ok) {
       const errorMessage = document.createElement("p");
