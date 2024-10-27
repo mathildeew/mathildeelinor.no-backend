@@ -17,11 +17,12 @@ export const updateProduct = async (req, res) => {
   }
 
   try {
-    const product = await Product.findByIdAndUpdate(id, req.body, { new: true });
-    if (!product) {
+    const updatedProduct = await Product.findByIdAndUpdate(id, { $set: req.body }, { new: true, runValidators: true });
+
+    if (!updatedProduct) {
       return respondWithJson(res, 404, { message: "Product not found" });
     }
-    respondWithJson(res, 200, product);
+    respondWithJson(res, 200, updatedProduct);
   } catch (error) {
     console.error(error);
     const statusCode = error.name === "ValidationError" ? 400 : 500;

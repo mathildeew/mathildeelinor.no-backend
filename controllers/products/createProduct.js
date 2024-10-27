@@ -1,4 +1,3 @@
-import { productSchemaValidation } from "../../middleware/schemaValidation.js";
 import { respondWithJson } from "../../helpers/responseHelpers.js";
 import { Product } from "../../models/product.model.js";
 

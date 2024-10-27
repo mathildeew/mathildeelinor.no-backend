@@ -71,6 +71,11 @@ a {
   gap: 10px;
 }
 
+.image {
+  width: 100%;
+  height: auto;
+}
+
 @media (min-width: 768px) {
   #productsContainer {
     grid-template-columns: repeat(3, 1fr);
