@@ -11,13 +11,15 @@ export function createProductListener() {
     formBtn.innerText = "Creating...";
 
     const name = document.getElementById("createProductName");
-    const qnt = document.getElementById("createProductQn");
+    const qnt = document.getElementById("createProductQnt");
     const price = document.getElementById("createProductPrice");
+    const image = document.getElementById("createProductImage");
 
     const productContent = {
       name: name.value,
       quantity: parseFloat(qnt.value),
       price: parseFloat(price.value),
+      image: image.value,
     };
 
     const response = await createProduct("/api/products/", productContent);
@@ -39,11 +41,8 @@ async function createProduct(url, productContent) {
     const response = await fetch(url, postData);
     const json = await response.json();
 
-    // console.log(response);
-
     if (response.ok === true) {
-      // window.location.href = `/products/?id=${json.id}`;
-      // window.location.reload();
+      window.location.reload();
     }
     return json;
   } catch (error) {

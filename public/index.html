@@ -13,15 +13,20 @@
         <h2>Create product</h2>
         <div class="flexCol">
           <label for="name">Name</label>
-          <input name="name" id="createProductName" />
+          <input name="name" id="createProductName" type="string" required />
         </div>
         <div class="flexCol">
           <label for="qnt">Quantity</label>
-          <input name="qnt" id="createProductQn" />
+          <input name="qnt" id="createProductQnt" type="number" minlength="2" maxlength="100" required />
         </div>
         <div class="flexCol">
           <label for="price">Price</label>
-          <input name="price" id="createProductPrice" />
+          <input name="price" id="createProductPrice" type="number" minlength="0" maxlength="9999999" required />
+        </div>
+
+        <div class="flexCol">
+          <label for="image">Image</label>
+          <input name="image" id="createProductImage" type="url" required />
         </div>
         <button type="submit" id="formBtn">Create product</button>
       </form>

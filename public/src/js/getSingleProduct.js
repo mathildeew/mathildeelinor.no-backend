@@ -32,16 +32,18 @@ function display(product) {
   const name = product.name;
   const qnt = product.quantity;
   const price = product.price;
+  const image = product.image;
 
-  const productCard = productTemplate(id, name, qnt, price);
+  const productCard = productTemplate(id, name, qnt, price, image);
   container.append(productCard);
 }
 
-function productTemplate(id, name, qnt, price) {
+function productTemplate(id, name, qnt, price, image) {
   const productCard = document.createElement("div");
   productCard.className = "productCard";
   productCard.innerHTML += `
                                 <h1 id="productTitle"></h1>
+                                <img src="${image}" class="image"/>
                                 <div class="flexRow">
                                   <p>Quantity:</p>
                                   <p id="productQnt"></p>
