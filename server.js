@@ -26,6 +26,9 @@ app.use(logger);
 
 // Setup static folder
 app.use(express.static(path.join(__dirname, "public")));
+app.get("/products/:id", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "products", "index.html"));
+});
 
 // Routes
 app.use("/api/products", productRouter);
