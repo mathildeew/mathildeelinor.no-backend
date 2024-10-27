@@ -6,35 +6,48 @@ const ProductSchema = mongoose.Schema(
       type: String,
       required: [true, "Please enter product name"],
     },
-
     quantity: {
       type: Number,
       required: [true, "Please enter the quantity"],
-      default: 0,
       min: [0, "Quantity must be a positive number"],
       validate: {
         validator: Number.isInteger,
         message: "Quantity must be an integer",
       },
-      default: 0,
     },
-
     price: {
       type: Number,
       required: [true, "Please enter the price"],
-      default: 0,
       min: [0, "Price must be a positive number"],
       max: [9999999, "Price cannot be over 9999999"],
-      default: 0,
     },
-
     image: {
       type: String,
       required: false,
+      validate: {
+        validator: function (value) {
+          const urlRegex = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+          return urlRegex.test(value);
+        },
+        message: "Please enter a valid URL for the image",
+      },
+    },
+    description: {
+      type: String,
+      required: false,
+    },
+    category: {
+      type: String,
+      required: false,
+    },
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "active",
     },
   },
   {
-    timestamp: true,
+    timestamps: true, // Corrected from timestamp to timestamps
   }
 );
 
