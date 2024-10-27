@@ -9,17 +9,22 @@ const ProductSchema = mongoose.Schema(
 
     quantity: {
       type: Number,
-      required: [true, "Must be a number"],
+      required: [true, "Please enter the quantity"],
       default: 0,
       min: [0, "Quantity must be a positive number"],
+      validate: {
+        validator: Number.isInteger,
+        message: "Quantity must be an integer",
+      },
       default: 0,
     },
 
     price: {
       type: Number,
-      required: [true, "Must be a number"],
+      required: [true, "Please enter the price"],
       default: 0,
-      min: [0, "Quantity must be a positive number"],
+      min: [0, "Price must be a positive number"],
+      max: [9999999, "Price cannot be over 9999999"],
       default: 0,
     },
 
