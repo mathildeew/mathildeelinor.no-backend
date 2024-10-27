@@ -3,11 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="stylesheet" href="./src/css/styles.css" />
+    <title>Products</title>
   </head>
   <body>
-    <h1>Hello Worrrld!</h1>
-    <div id="productsContainer"></div>
-    <script src="./src/js/script.js"></script>
+    <main>
+      <h1>Fantastic products</h1>
+      <form id="productForm">
+        <h2>Create product</h2>
+        <div class="flexCol">
+          <label for="name">Name</label>
+          <input name="name" id="createProductName" />
+        </div>
+        <div class="flexCol">
+          <label for="qnt">Quantity</label>
+          <input name="qnt" id="createProductQn" />
+        </div>
+        <div class="flexCol">
+          <label for="price">Price</label>
+          <input name="price" id="createProductPrice" />
+        </div>
+        <button type="submit" id="formBtn">Create product</button>
+      </form>
+      <section class="container">
+        <h2>All products</h2>
+        <div id="productsContainer"></div>
+      </section>
+    </main>
+    <script src="./src/js/script.js" type="module"></script>
   </body>
 </html>

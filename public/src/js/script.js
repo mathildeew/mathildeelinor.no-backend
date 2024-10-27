@@ -1,19 +1,34 @@
-const url = process.env.REACT_APP_API_URL || "http://localhost:8000/api/products";
+import { createProductListener } from "./createProduct.js";
+import { deleteProduct } from "./deleteProduct.js";
+import { getAllProducts } from "./getAllProducts.js";
+import { getSingleProduct } from "./getSingleProduct.js";
+import { updateProduct } from "./updateProduct.js";
 
-export async function getAll(url) {
-  const response = await fetch(url);
-  const json = await response.json();
+const url = "http://localhost:8000/api/products";
 
-  if (response.ok) {
-    return json;
-  } else {
-    console.log(error);
-  }
-}
+// Router - Run function based on pathname
+const path = location.pathname;
 
-function display(products){
-    const container = document.querySelector("#productsContainer")
-    container.innerHTML = `
-    
-    `
+switch (path) {
+  case "/":
+    getAllProducts(url);
+    createProductListener();
+    break;
+
+  case "/products/":
+    const queryString = document.location.search;
+    const params = new URLSearchParams(queryString);
+    const id = params.get("id");
+
+    if (id) {
+      getSingleProduct(id);
+      updateProduct(id);
+      deleteProduct(id);
+    } else {
+      console.log("Route ID not found");
+    }
+    break;
+
+  default:
+    console.log("Route not found.");
 }
