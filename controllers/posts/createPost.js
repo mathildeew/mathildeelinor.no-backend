@@ -1,5 +1,5 @@
-import { respondWithJson } from "../../helpers/responseHelpers.js";
 import { Post } from "../../models/post.model.js";
+import { respondWithJson } from "../../helpers/responseHelpers.js";
 
 /**
  * Creates a new post based on the data provided in the request.
@@ -13,14 +13,18 @@ import { Post } from "../../models/post.model.js";
  * @throws {Error} 500 InternalServerError - For other types of errors.
  */
 export const createPost = async (req, res) => {
+  // console.log(req.file);
   try {
-    const post = await Post.create(req.body);
-    respondWithJson(res, 201, post);
+    const newPost = new Post({
+      name: req.body.name,
+      message: req.body.message,
+      image: req.file.id, // Lagre ID-en til bildet i databasen
+    });
+
+    const savedPost = await newPost.save(); // Lagre innlegget i databasen
+    respondWithJson(res, 201, savedPost); // Send tilbake det lagrede innlegget som respons
   } catch (error) {
-    if (error.name === "ValidationError") {
-      return respondWithJson(res, 400, { message: "Validering mislyktes", errors: error.errors });
-    }
-    console.error(error);
-    respondWithJson(res, 500, { message: "Intern server feil. Prøv igjen senere." });
+    console.error("Feil ved oppretting av innlegg:", error);
+    respondWithJson(res, 500, { message: "Intern Server Feil" });
   }
 };

@@ -2,14 +2,17 @@ import mongoose from "mongoose";
 
 const PostSchema = mongoose.Schema(
   {
+    name: {
+      type: String,
+    },
     message: {
+      type: String,
+      required: true,
+    },
+    image: {
       type: String,
       required: false,
     },
-    // image: {
-    //   type: String,
-    //   required: false,
-    // },
   },
   {
     timestamps: true,

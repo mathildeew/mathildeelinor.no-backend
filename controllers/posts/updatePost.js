@@ -9,22 +9,35 @@ import { Post } from "../../models/post.model.js";
  * @returns {Promise<void>}
  */
 export const updatePost = async (req, res) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return respondWithJson(res, 400, { message: "Invalid post ID" });
-  }
+  const postId = req.params.id;
 
   try {
-    const updatedPost = await Post.findByIdAndUpdate(id, { $set: req.body }, { new: true, runValidators: true });
+    // Først, hvis et nytt bilde er lastet opp, slett det gamle bildet
+    if (req.file) {
+      // Hent det gamle innlegget fra databasen
+      const existingPost = await Post.findById(postId);
+      if (existingPost && existingPost.image) {
+        // Slett det gamle bildet fra GridFS
+        await req.gridFSBucket.delete(existingPost.image); // Bruk gridFSBucket fra req
+      }
+    }
+
+    // Oppdater innlegget i databasen
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      {
+        message: req.body.message,
+        image: req.file ? req.file.id : existingPost.image, // Bruk id til nytt bilde eller behold det gamle
+      },
+      { new: true }
+    );
 
     if (!updatedPost) {
-      return respondWithJson(res, 404, { message: "Melding finnes ikke" });
+      return res.status(404).json({ message: "Post not found" });
     }
-    respondWithJson(res, 200, updatedPost);
+
+    res.status(200).json(updatedPost);
   } catch (error) {
-    console.error(error);
-    const statusCode = error.name === "ValidationError" ? 400 : 500;
-    respondWithJson(res, statusCode, { message: error || "Intern server feil. Prøv igjen senere." });
+    res.status(500).json({ message: "Error updating post", error });
   }
 };
