@@ -1,4 +1,4 @@
-# Node.js, Express, MongoDB - CRUD API
+# mathildeelinor.no - backend
 
 Et enkelt API for håndtering av produkter, bygget med Node.js, Express og MongoDB. API-en tillater opprettelse, oppdatering, henting og sletting av produkter med validering av inngangsdata. I tillegg finnes det en enkel front-end applikasjon som samhandler med API-en.
 
