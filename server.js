@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
-import productRouter from "./routes/product.route.js";
+import postRouter from "./routes/post.route.js";
 import notFound from "./middleware/notFound.js";
 import errorHandler from "./controllers/error.js";
 import logger from "./middleware/logger.js";
@@ -33,7 +33,7 @@ mongoose
   });
 
 // Routes
-app.use("/api/messages", productRouter);
+app.use("/api/messages", postRouter);
 
 // Error handler
 app.use(notFound);
