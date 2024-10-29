@@ -21,6 +21,8 @@ export const createPost = async (req, res) => {
       image: req.file.id, // Lagre ID-en til bildet i databasen
     });
 
+    console.log(req.file);
+
     const savedPost = await newPost.save(); // Lagre innlegget i databasen
     respondWithJson(res, 201, savedPost); // Send tilbake det lagrede innlegget som respons
   } catch (error) {

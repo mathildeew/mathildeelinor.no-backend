@@ -1,12 +1,12 @@
 import express from "express";
+import mongoose from "mongoose";
+import upload from "../config/multerConfig.js";
 import { getPosts } from "../controllers/posts/getPosts.js";
 import { getPost } from "../controllers/posts/getPost.js";
 import { createPost } from "../controllers/posts/createPost.js";
 import { updatePost } from "../controllers/posts/updatePost.js";
 import { deletePost } from "../controllers/posts/deletePost.js";
 import { validatePost } from "../middleware/postValidation.js";
-import upload from "../config/multerConfig.js";
-import mongoose from "mongoose";
 
 const router = express.Router();
 
