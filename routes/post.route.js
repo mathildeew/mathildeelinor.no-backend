@@ -1,12 +1,17 @@
 import express from "express";
 import mongoose from "mongoose";
 import upload from "../config/multerConfig.js";
+
+// Posts
 import { getPosts } from "../controllers/posts/getPosts.js";
 import { getPost } from "../controllers/posts/getPost.js";
 import { createPost } from "../controllers/posts/createPost.js";
 import { updatePost } from "../controllers/posts/updatePost.js";
 import { deletePost } from "../controllers/posts/deletePost.js";
 import { validatePost } from "../middleware/postValidation.js";
+
+// Users
+import { createUser } from "../controllers/users/createUser.js";
 
 const router = express.Router();
 
@@ -24,6 +29,11 @@ router.put("/:id", upload.single("image"), updatePost);
 
 // Delete post
 router.delete("/:id", deletePost);
+
+// Create user
+
+// Get all users
+// router.get("/users", getUsers);
 
 // Middleware to access gridFSBucket
 router.use((req, res, next) => {
