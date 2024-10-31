@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 import { respondWithJson } from "../../helpers/responseHelpers.js";
 import { Post } from "../../models/post.model.js";
 
@@ -16,11 +17,25 @@ export const deletePost = async (req, res) => {
     return respondWithJson(res, 400, { message: "Invalid post ID" });
   }
 
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return respondWithJson(res, 401, { message: "Uautorisert tilgang" });
+  }
+
   try {
-    const post = await Post.findByIdAndDelete(id);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+
+    const post = await Post.findById(id);
     if (!post) {
       return respondWithJson(res, 404, { message: "Post finnes ikke" });
     }
+
+    if (post.userId.toString() !== userId) {
+      return respondWithJson(res, 403, { message: "Du har ikke tilgang til å slette denne posten" });
+    }
+
+    await Post.findByIdAndDelete(id);
     respondWithJson(res, 200, { message: `Post med id: ${id} er nå slettet` });
   } catch (error) {
     console.error("Feil ved sletting av post:", error);

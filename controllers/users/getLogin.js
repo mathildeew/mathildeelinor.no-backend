@@ -29,7 +29,11 @@ export const getLogin = async (req, res) => {
       return respondWithJson(res, 401, { message: "Ugyldig brukernavn eller passord" });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign(
+      { id: user._id, name: user.name, emoji: user.emoji }, // Legg til emoji her
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
 
     res.status(200).json({
       id: user._id,

@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { respondWithJson } from "../../helpers/responseHelpers.js";
 import { Post } from "../../models/post.model.js";
 
@@ -15,9 +16,11 @@ export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find({});
 
-    const message = posts.length === 0 ? { message: "No posts available" } : posts;
-    respondWithJson(res, 200, message);
+    if (posts.length === 0) {
+      return res.status(204).send(); // Ingen innhold, 204 No Content
+    }
+    respondWithJson(res, 200, posts); // Returner alle postene
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message }); // Håndter feil
   }
 };

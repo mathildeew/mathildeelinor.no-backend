@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { Post } from "../../models/post.model.js";
 import { respondWithJson } from "../../helpers/responseHelpers.js";
 
@@ -13,20 +14,28 @@ import { respondWithJson } from "../../helpers/responseHelpers.js";
  * @throws {Error} 500 InternalServerError - For other types of errors.
  */
 export const createPost = async (req, res) => {
-  // console.log(req.file);
+  const { message, image } = req.body;
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return respondWithJson(res, 401, { message: "Uautorisert tilgang" });
+  }
+
   try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+
     const newPost = new Post({
-      name: req.body.name,
-      message: req.body.message,
-      image: req.file.id, // Lagre ID-en til bildet i databasen
+      message,
+      userId,
+      name: decoded.name,
+      image,
     });
 
-    console.log(req.file);
-
-    const savedPost = await newPost.save(); // Lagre innlegget i databasen
-    respondWithJson(res, 201, savedPost); // Send tilbake det lagrede innlegget som respons
+    await newPost.save();
+    respondWithJson(res, 201, { message: "Post opprettet", post: newPost });
   } catch (error) {
-    console.error("Feil ved oppretting av innlegg:", error);
+    console.error("Feil ved oppretting av post:", error);
     respondWithJson(res, 500, { message: "Intern Server Feil" });
   }
 };

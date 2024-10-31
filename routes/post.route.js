@@ -50,7 +50,7 @@ router.use((req, res, next) => {
 });
 
 // Get image from GridFS
-router.get("/image/:id", async (req, res) => {
+router.get("/messages/image/:id", async (req, res) => {
   try {
     const fileId = req.params.id;
     const gridFSBucket = req.gridFSBucket; // Bruk req.gridFSBucket i stedet for gridFSBucket direkte
