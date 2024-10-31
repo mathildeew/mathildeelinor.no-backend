@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import upload from "../config/multerConfig.js";
+import { authenticateToken } from "../middleware/authenticateToken.js";
 
 // Posts
 import { getPosts } from "../controllers/posts/getPosts.js";
@@ -12,28 +13,35 @@ import { validatePost } from "../middleware/postValidation.js";
 
 // Users
 import { createUser } from "../controllers/users/createUser.js";
+import { getLogin } from "../controllers/users/getLogin.js";
 
 const router = express.Router();
 
 // Get all posts
-router.get("/", getPosts);
+router.get("/messages", getPosts);
 
 // Create new post
-router.post("/", upload.single("image"), validatePost, createPost);
+router.post("/messages", upload.single("image"), validatePost, createPost);
 
 // Get single post
-router.get("/:id", getPost);
+router.get("/messages/:id", getPost);
 
 // Update post
-router.put("/:id", upload.single("image"), updatePost);
+router.put("/messages/:id", upload.single("image"), updatePost);
 
 // Delete post
-router.delete("/:id", deletePost);
+router.delete("/messages/:id", deletePost);
+
+// Login/get user
+router.post("/login", getLogin);
 
 // Create user
+router.post("/users", createUser);
 
-// Get all users
-// router.get("/users", getUsers);
+// Protected route
+router.get("/protected-route", authenticateToken, (req, res) => {
+  res.json({ message: "This is a protected route", user: req.user });
+});
 
 // Middleware to access gridFSBucket
 router.use((req, res, next) => {

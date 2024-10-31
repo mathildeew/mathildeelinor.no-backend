@@ -46,7 +46,7 @@ mongoose
   });
 
 // Routes
-app.use("/api/messages", postRouter);
+app.use("/api", postRouter);
 
 // Error handler
 app.use(notFound);
