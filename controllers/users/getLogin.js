@@ -21,8 +21,10 @@ export const getLogin = async (req, res) => {
     return respondWithJson(res, 400, { message: "Name and password are required" });
   }
 
+  const lowerCaseName = name.toLowerCase();
+
   try {
-    const user = await User.findOne({ name });
+    const user = await User.findOne({ name: lowerCaseName });
 
     if (!user) {
       return respondWithJson(res, 401, { message: "User not found" });

@@ -21,13 +21,15 @@ export const createUser = async (req, res) => {
       return respondWithJson(res, 400, { message: "Name and password are required" });
     }
 
-    const existingUser = await User.findOne({ name });
+    const lowerCaseName = name.toLowerCase();
+
+    const existingUser = await User.findOne({ name: lowerCaseName });
     if (existingUser) {
       return respondWithJson(res, 400, { message: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ emoji, name, password: hashedPassword });
+    const newUser = new User({ emoji, name: lowerCaseName, password: hashedPassword });
     await newUser.save();
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
