@@ -4,8 +4,8 @@ Et enkelt API for håndtering av gjestebokmeldinger, bygget med Node.js, Express
 
 ## Sjekk ut prosjektet her
 
-[Gjesteboka](https://mathildeelinor.no/gjesteboka)
-[Front-end kode her](https://github.com/mathildeew/mathildeelinor.no)
+- [Gjesteboka](https://mathildeelinor.no/gjesteboka)
+- [Frontend kode her](https://github.com/mathildeew/mathildeelinor.no)
 
 ## Funksjoner
 
