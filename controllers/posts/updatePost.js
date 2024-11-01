@@ -1,6 +1,7 @@
-import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 import { respondWithJson } from "../../helpers/responseHelpers.js";
 import { Post } from "../../models/post.model.js";
+
 /**
  * Updates a post by ID.
  *
@@ -11,10 +12,26 @@ import { Post } from "../../models/post.model.js";
 export const updatePost = async (req, res) => {
   const postId = req.params.id;
 
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return respondWithJson(res, 401, { message: "Unauthorized access" });
+  }
+
   try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+
+    const existingPost = await Post.findById(postId);
+    if (!existingPost) {
+      return respondWithJson(res, 404, { message: "Post not found" });
+    }
+
+    if (existingPost.userId.toString() !== userId) {
+      return respondWithJson(res, 403, { message: "You do not have permission to update this post" });
+    }
+
     if (req.file) {
-      const existingPost = await Post.findById(postId);
-      if (existingPost && existingPost.image) {
+      if (existingPost.image) {
         await req.gridFSBucket.delete(existingPost.image);
       }
     }
@@ -28,12 +45,9 @@ export const updatePost = async (req, res) => {
       { new: true }
     );
 
-    if (!updatedPost) {
-      return res.status(404).json({ message: "Post not found" });
-    }
-
     res.status(200).json(updatedPost);
   } catch (error) {
-    res.status(500).json({ message: "Error updating post", error });
+    console.error("Error updating post:", error);
+    respondWithJson(res, 500, { message: "Error updating post", error });
   }
 };

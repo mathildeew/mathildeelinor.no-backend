@@ -21,7 +21,7 @@ const router = express.Router();
 router.get("/messages", getPosts); // Get all posts
 router.post("/messages", upload.single("image"), validatePost, createPost); // Create post
 router.get("/messages/:id", getPost); // Get single post by id
-router.put("/messages/:id", upload.single("image"), updatePost); // Update post by id
+router.put("/messages/:id", upload.single("image"), validatePost, updatePost); // Update post by id
 router.delete("/messages/:id", deletePost); // Delete post by id
 
 // User
