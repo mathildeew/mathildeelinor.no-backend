@@ -21,7 +21,7 @@ const router = express.Router();
 router.get("/messages", getPosts);
 
 // Create new post
-router.post("/messages", upload.single("image"), validatePost, createPost);
+router.post("/messages", upload.single("image"), createPost);
 
 // Get single post
 router.get("/messages/:id", getPost);

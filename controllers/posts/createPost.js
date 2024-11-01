@@ -14,7 +14,7 @@ import { respondWithJson } from "../../helpers/responseHelpers.js";
  * @throws {Error} 500 InternalServerError - For other types of errors.
  */
 export const createPost = async (req, res) => {
-  const { message, image } = req.body;
+  const { message } = req.body; // Bare få tak i melding fra body
   const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
@@ -25,11 +25,16 @@ export const createPost = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.id;
 
+    // Sjekk at req.file er tilgjengelig og har blitt lastet opp
+    if (!req.file) {
+      return respondWithJson(res, 400, { message: "Ingen bilde ble lastet opp" });
+    }
+
     const newPost = new Post({
       message,
       userId,
       name: decoded.name,
-      image,
+      image: req.file.id,
     });
 
     await newPost.save();
