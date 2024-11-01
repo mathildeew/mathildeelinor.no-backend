@@ -18,29 +18,30 @@ export const createPost = async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
-    return respondWithJson(res, 401, { message: "Uautorisert tilgang" });
+    return respondWithJson(res, 401, { message: "Unauthorized access" });
+  }
+
+  if (!message || message.trim().length === 0) {
+    return respondWithJson(res, 400, { message: "Message cannot be empty" });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.id;
 
-    // Sjekk at req.file er tilgjengelig og har blitt lastet opp
-    if (!req.file) {
-      return respondWithJson(res, 400, { message: "Ingen bilde ble lastet opp" });
-    }
+    const image = req.file ? req.file.id : null;
 
     const newPost = new Post({
       message,
       userId,
       name: decoded.name,
-      image: req.file.id,
+      image,
     });
 
     await newPost.save();
-    respondWithJson(res, 201, { message: "Post opprettet", post: newPost });
+    respondWithJson(res, 201, { message: "Message sent!", post: newPost });
   } catch (error) {
-    console.error("Feil ved oppretting av post:", error);
-    respondWithJson(res, 500, { message: "Intern Server Feil" });
+    console.error("Error when creating message:", error);
+    respondWithJson(res, 500, { message: "Internal Server Error" });
   }
 };

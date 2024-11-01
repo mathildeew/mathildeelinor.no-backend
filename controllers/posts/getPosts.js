@@ -1,4 +1,3 @@
-import jwt from "jsonwebtoken";
 import { respondWithJson } from "../../helpers/responseHelpers.js";
 import { Post } from "../../models/post.model.js";
 
@@ -17,10 +16,11 @@ export const getPosts = async (req, res) => {
     const posts = await Post.find({});
 
     if (posts.length === 0) {
-      return res.status(204).send(); // Ingen innhold, 204 No Content
+      return res.status(204).send();
     }
-    respondWithJson(res, 200, posts); // Returner alle postene
+    respondWithJson(res, 200, posts);
   } catch (error) {
-    res.status(500).json({ message: error.message }); // Håndter feil
+    console.error("Error retrieving messages:", error.message);
+    res.status(500).json({ message: error.message });
   }
 };

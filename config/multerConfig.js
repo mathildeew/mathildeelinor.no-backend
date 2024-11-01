@@ -1,23 +1,21 @@
-import mongoose from "mongoose";
+import dotenv from "dotenv";
 import multer from "multer";
 import { GridFsStorage } from "multer-gridfs-storage";
-import dotenv from "dotenv";
 
 dotenv.config();
 
-const mongoURI = process.env.MONGODB_URL;
+const mongoURI = process.env.MONGODB_URI;
 
 const storage = new GridFsStorage({
-  url: mongoURI, // MongoDB URI
+  url: mongoURI,
   file: (req, file) => {
     return {
       filename: `${Date.now()}-${file.originalname}`,
-      bucketName: "uploads", // Navnet på bucket som skal brukes
+      bucketName: "uploads",
     };
   },
 });
 
-// Initialiser multer med storage
 const upload = multer({ storage });
 
 export default upload;

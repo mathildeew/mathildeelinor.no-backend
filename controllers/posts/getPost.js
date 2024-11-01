@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import { respondWithJson } from "../../helpers/responseHelpers.js";
 import { Post } from "../../models/post.model.js";
-Post;
 
 /**
  * Retrieves a single post by its ID from the database.
@@ -17,17 +16,17 @@ export const getPost = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return respondWithJson(res, 400, { message: "Invalid post ID" });
+    return respondWithJson(res, 400, { message: "Invalid message id" });
   }
   try {
     const post = await Post.findById(id);
 
     if (!post) {
-      return respondWithJson(res, 404, { message: "Post finnes ikke" });
+      return respondWithJson(res, 404, { message: "The message does not exist" });
     }
     respondWithJson(res, 200, post);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: error.message || "Intern Server Feil" });
+    res.status(500).json({ error: error.message || "Internal Server Error" });
   }
 };

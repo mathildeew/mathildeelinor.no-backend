@@ -17,32 +17,32 @@ import { respondWithJson } from "../../helpers/responseHelpers.js";
 export const getLogin = async (req, res) => {
   const { name, password } = req.body;
 
+  if (!name || !password) {
+    return respondWithJson(res, 400, { message: "Name and password are required" });
+  }
+
   try {
     const user = await User.findOne({ name });
 
     if (!user) {
-      return respondWithJson(res, 401, { message: "Ugyldig brukernavn eller passord" });
+      return respondWithJson(res, 401, { message: "User not found" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return respondWithJson(res, 401, { message: "Ugyldig brukernavn eller passord" });
+      return respondWithJson(res, 401, { message: "Incorrect username or password" });
     }
 
-    const token = jwt.sign(
-      { id: user._id, name: user.name, emoji: user.emoji }, // Legg til emoji her
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+    const token = jwt.sign({ id: user._id, name: user.name, emoji: user.emoji }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-    res.status(200).json({
+    respondWithJson(res, 200, {
       id: user._id,
       emoji: user.emoji,
       name: user.name,
       token,
     });
   } catch (error) {
-    console.error("Feil ved innlogging:", error);
-    respondWithJson(res, 500, { message: "Intern Server Feil" });
+    console.error("Error during login:", error);
+    respondWithJson(res, 500, { message: "Internal Server Error" });
   }
 };

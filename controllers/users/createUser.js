@@ -16,20 +16,30 @@ import { respondWithJson } from "../../helpers/responseHelpers.js";
 export const createUser = async (req, res) => {
   try {
     const { emoji, name, password } = req.body;
+
+    if (!name || !password) {
+      return respondWithJson(res, 400, { message: "Name and password are required" });
+    }
+
+    const existingUser = await User.findOne({ name });
+    if (existingUser) {
+      return respondWithJson(res, 400, { message: "User already exists" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ emoji, name, password: hashedPassword });
     await newUser.save();
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-    res.status(201).json({
+    respondWithJson(res, 201, {
       id: newUser._id,
       emoji: newUser.emoji,
       name: newUser.name,
       token,
     });
   } catch (error) {
-    console.error("Feil ved opprettelse av bruker:", error);
-    respondWithJson(res, 500, { message: "Intern Server Feil" });
+    console.error("Error creating user::", error);
+    respondWithJson(res, 500, { message: "Internal Server Error" });
   }
 };

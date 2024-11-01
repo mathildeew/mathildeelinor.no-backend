@@ -1,17 +1,16 @@
-import { GridFSBucket } from "mongodb";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
-import postRouter from "./routes/post.route.js";
+import guestbookRouter from "./routes/guestbook.route.js";
 import notFound from "./middleware/notFound.js";
-import errorHandler from "./controllers/error.js";
 import logger from "./middleware/logger.js";
+import errorHandler from "./controllers/error.js";
 
 // Constanst
 dotenv.config();
 const port = process.env.PORT || 8000;
-const mongoDBUrl = process.env.MONGODB_URL;
+const mongoDBURI = process.env.MONGODB_URI;
 
 // Create Express app
 const app = express();
@@ -27,10 +26,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(logger);
 
 // Connect to MongoDB and set up GridFSBucket
-let gridFSBucket;
-
 mongoose
-  .connect(mongoDBUrl)
+  .connect(mongoDBURI)
   .then((connection) => {
     console.log("Connected to the database");
 
@@ -39,14 +36,21 @@ mongoose
     });
 
     app.locals.gridFSBucket = gridFSBucket;
-    app.listen(port, () => console.log(`Server is running on port ${port}`));
+
+    // Start the server
+    startServer();
   })
-  .catch(() => {
-    console.log(`Connection failed: ${error.message}`);
+  .catch((connectionError) => {
+    console.log(`Connection failed: ${connectionError.message}`);
   });
 
+// Function to start the server
+const startServer = () => {
+  app.listen(port, () => console.log(`Server is running on port ${port}`));
+};
+
 // Routes
-app.use("/api", postRouter);
+app.use("/api", guestbookRouter);
 
 // Error handler
 app.use(notFound);
