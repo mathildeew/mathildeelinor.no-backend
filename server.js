@@ -9,7 +9,9 @@ import errorHandler from "./controllers/error.js";
 
 // Constanst
 dotenv.config();
-const port = process.env.PORT || 8000;
+// const port = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8000;
+
 const mongoDBURI = process.env.MONGODB_URI;
 
 // Create Express app
@@ -46,7 +48,7 @@ mongoose
 
 // Function to start the server
 const startServer = () => {
-  app.listen(port, () => console.log(`Server is running on port ${port}`));
+  app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 };
 
 // Routes
