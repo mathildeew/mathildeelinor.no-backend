@@ -13,7 +13,7 @@ import { Post } from "../../models/post.model.js";
  */
 export const getPosts = async (req, res) => {
   try {
-    const posts = await Post.find({});
+    const posts = await Post.find().sort({ createdAt: -1 });
 
     if (posts.length === 0) {
       return res.status(204).send();
