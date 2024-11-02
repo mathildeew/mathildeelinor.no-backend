@@ -10,7 +10,6 @@ import errorHandler from "./controllers/error.js";
 // Constanst
 dotenv.config();
 const PORT = process.env.PORT;
-
 const mongoDBURI = process.env.MONGODB_URI;
 
 // Create Express app
