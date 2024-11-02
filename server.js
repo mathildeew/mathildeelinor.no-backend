@@ -9,8 +9,7 @@ import errorHandler from "./controllers/error.js";
 
 // Constanst
 dotenv.config();
-// const port = process.env.PORT || 8000;
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT;
 
 const mongoDBURI = process.env.MONGODB_URI;
 
