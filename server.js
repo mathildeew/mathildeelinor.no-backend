@@ -16,7 +16,12 @@ const mongoDBURI = process.env.MONGODB_URI;
 const app = express();
 
 // Enable CORS for all routes
-app.use(cors());
+app.use(
+  cors({
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // Body parser middleware
 app.use(express.json());
