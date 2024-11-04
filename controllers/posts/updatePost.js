@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import { respondWithJson } from "../../helpers/responseHelpers.js";
 import { Post } from "../../models/post.model.js";
@@ -32,7 +33,13 @@ export const updatePost = async (req, res) => {
 
     if (req.file) {
       if (existingPost.image) {
-        await req.gridFSBucket.delete(existingPost.image);
+        console.log("Attempting to delete image with ID:", existingPost.image);
+        const files = await req.app.locals.gridFSBucket.find({ _id: new mongoose.Types.ObjectId(existingPost.image) }).toArray();
+        if (files.length === 0) {
+          console.log("File not found for ID:", existingPost.image);
+        } else {
+          await req.app.locals.gridFSBucket.delete(new mongoose.Types.ObjectId(existingPost.image));
+        }
       }
     }
 
