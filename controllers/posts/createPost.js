@@ -33,8 +33,11 @@ export const createPost = async (req, res) => {
 
     const newPost = new Post({
       message,
-      userId,
-      name: decoded.name,
+      user: {
+        userId,
+        name: decoded.name,
+        emoji: decoded.emoji,
+      },
       image,
     });
 
