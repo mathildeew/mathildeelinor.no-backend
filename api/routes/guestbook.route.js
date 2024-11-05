@@ -28,11 +28,6 @@ router.delete("/messages/:id", deletePost); // Delete post by id
 router.post("/login", getLogin); // User login
 router.post("/users", createUser); // Create user
 
-// Protected route
-router.get("/protected-route", authenticateToken, (req, res) => {
-  res.json({ message: "This is a protected route", user: req.user });
-});
-
 // Middleware to access gridFSBucket
 router.use((req, res, next) => {
   req.gridFSBucket = req.app.locals.gridFSBucket;
