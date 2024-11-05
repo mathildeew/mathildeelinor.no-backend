@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import guestbookRouter from "./api/routes/guestbook.route.js";
-import notFound from "./api/middleware/notFound.js";
-import logger from "./api/middleware/logger.js";
-import errorHandler from "./api/controllers/error.js";
+import guestbookRouter from "./routes/guestbook.route.js";
+import notFound from "./middleware/notFound.js";
+import logger from "./middleware/logger.js";
+import errorHandler from "./controllers/error.js";
 
 // Constanst
 dotenv.config();
