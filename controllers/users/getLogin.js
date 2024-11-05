@@ -35,7 +35,7 @@ export const getLogin = async (req, res) => {
       return respondWithJson(res, 401, { message: "Incorrect username or password" });
     }
 
-    const token = jwt.sign({ id: user._id, name: user.name, emoji: user.emoji }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id, name: user.name, emoji: user.emoji }, process.env.JWT_SECRET);
 
     respondWithJson(res, 200, {
       id: user._id,
