@@ -1,11 +1,11 @@
 {
   "name": "mathildeelinor.no-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "/api/index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js"
+    "start": "node api/index.js",
+    "dev": "node --watch api/index.js"
   },
   "author": "",
   "license": "ISC",
