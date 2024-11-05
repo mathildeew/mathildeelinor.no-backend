@@ -8,6 +8,6 @@ export const validatePost = async (req, res, next) => {
     await schema.validate(req.body, { abortEarly: false });
     next();
   } catch (error) {
-    return respondWithJson(res, 400, { message: "Validering mislyktes", errors: error.errors });
+    return respondWithJson(res, 400, { message: "Validation failed", errors: error.errors });
   }
 };

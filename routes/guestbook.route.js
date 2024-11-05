@@ -50,7 +50,6 @@ router.get("/messages/image/:id", async (req, res) => {
     }
 
     const files = await gridFSBucket.find({ _id: new mongoose.Types.ObjectId(fileId) }).toArray();
-    console.log("Files found:", files);
 
     if (!files || files.length === 0) {
       return res.status(404).json({ message: "File not found" });
