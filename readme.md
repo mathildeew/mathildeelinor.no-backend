@@ -1,4 +1,4 @@
-# mathildeelinor.no - backend
+# mathildeelinor.no - gjesteboka
 
 Et enkelt API for håndtering av gjestebokmeldinger, bygget med Node.js, Express og MongoDB. API-en tillater opprettelse, oppdatering, henting og sletting av meldinger med validering av inngangsdata. Brukere oppretter en konto og logger inn for å administrere sine egne innlegg. I tillegg finnes det en frontend applikasjon som samhandler med API-en.
 
