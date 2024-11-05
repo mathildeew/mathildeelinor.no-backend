@@ -27,7 +27,7 @@ export const updatePost = async (req, res) => {
       return respondWithJson(res, 404, { message: "Post not found" });
     }
 
-    if (existingPost.userId.toString() !== userId) {
+    if (existingPost.user.userId.toString() !== userId) {
       return respondWithJson(res, 403, { message: "You do not have permission to update this post" });
     }
 

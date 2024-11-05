@@ -31,7 +31,7 @@ export const deletePost = async (req, res) => {
       return respondWithJson(res, 404, { message: "The message does not exist" });
     }
 
-    if (post.userId.toString() !== userId) {
+    if (post.user.userId.toString() !== userId) {
       return respondWithJson(res, 403, { message: "You do not have access to delete this message" });
     }
 
