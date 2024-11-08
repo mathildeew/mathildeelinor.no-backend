@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import upload from "../config/multerConfig.js";
+import upload, { uploadMiddleware } from "../config/multerConfig.js";
 import { authenticateToken } from "../middleware/authenticateToken.js";
 
 // Posts controllers
@@ -19,9 +19,9 @@ const router = express.Router();
 
 // Post
 router.get("/messages", getPosts); // Get all posts
-router.post("/messages", upload.single("image"), validatePost, createPost); // Create post
+router.post("/messages", uploadMiddleware, createPost); // Create post
 router.get("/messages/:id", getPost); // Get single post by id
-router.put("/messages/:id", upload.single("image"), validatePost, updatePost); // Update post by id
+router.put("/messages/:id", validatePost, uploadMiddleware, updatePost); // Update post by id
 router.delete("/messages/:id", deletePost); // Delete post by id
 
 // User
